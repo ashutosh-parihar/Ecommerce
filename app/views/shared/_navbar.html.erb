@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-primary mb-4">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active text-white" aria-current="page" href="http://localhost:3000/">Home</a>
+        </li>
+        <li class="nav-item">
+          <% if user_signed_in? %>
+            <%= link_to "Log Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "nav-link text-white" %>
+          <% else %>
+            <div class="d-flex">
+              <%= link_to "Log in", new_user_session_path, class: "nav-link text-white me-2" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "nav-link text-white" %>
+            </div>
+          <% end %>
+        </li>
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "Edit", edit_user_registration_path, class: "nav-link text-white" %>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Cart (<%= current_user.cart_items.sum(&:quantity) %>)
+            </a>
+            <ul class="dropdown-menu">
+              <% current_user.cart_items.group_by(&:product).each do |product, cart_items| %>
+                <li><%= link_to "#{product.name} (#{cart_items.sum(&:quantity)})", customer_cart_path(cart_items.first.cart), class: "dropdown-item text-dark" %></li>
+              <% end %>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Cart", new_user_session_path, class: "nav-link text-white" %>
+          </li>
+        <% end %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu">
+            <% Category.all.each do |category| %>
+              <li><%= link_to category.name, products_path(category_id: category.id), class: "dropdown-item text-dark" %></li>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search" action="<%= search_homes_path %>" method="get">
+        <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>

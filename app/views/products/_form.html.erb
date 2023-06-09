@@ -1,0 +1,49 @@
+<%= form_with model: product do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+    <% product.errors.full_messages_for(:name).each do |message| %>
+      <div class="error"><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :actual_price %><br>
+    <%= form.text_field :actual_price %>
+    <% if product.errors.has_key?(:actual_price) %>
+      <div class="error"><%= product.errors.full_messages_for(:actual_price).first %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :current_price %><br>
+    <%= form.text_field :current_price %>
+    <% if product.errors.has_key?(:current_price) %>
+      <div class="error"><%= product.errors.full_messages_for(:current_price).first %></div>
+    <% end %>
+  </div>
+<div>
+  <%= form.label :images %><br>
+  <%= form.file_field :images, :multiple => true %>
+  <% if product.errors.has_key?(:images) %>
+    <div class="error"><%= product.errors.full_messages_for(:images).first %></div>
+  <% end %>
+</div>
+ <div>
+  <%= form.label :category_id %><br>
+  <%= form.collection_select :category_id, Category.where.not(parent_id: nil), :id, :name %>
+</div>
+
+
+  <div>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %>
+    <% if product.errors.has_key?(:description) %>
+      <div class="error"><%= product.errors.full_messages_for(:description).first %></div>
+    <% end %>
+  </div>
+
+  <div>
+   <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

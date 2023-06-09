@@ -1,0 +1,23 @@
+<h1>Products</h1>
+
+<div class="product-list row">
+  <% @products.each do |product| %>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <div class="card mb-4">
+        <%= image_tag url_for(product.images.first), class: "card-img-top", alt: "Product Image" %>
+        <div class="card-body">
+          <h5 class="card-title"><%= product.name %></h5>
+          <div class="price">
+            <span class="actual-price"><%= number_to_currency(product.actual_price, unit: "₹", precision: 2, format: "%u%n") %></span>
+            <span class="current-price"><%= number_to_currency(product.current_price, unit: "₹", precision: 2, format: "%u%n") %></span>
+          </div>
+          <p class="card-text"><%= product.description %></p>
+          <p class="card-text">Sold by: <%= product.user.name %></p>
+          <%= link_to 'Show', product, class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to 'Go Back', root_path, class: 'btn btn-success' %>

@@ -1,0 +1,22 @@
+<h1>Search Results</h1>
+
+<% if @products.any? %>
+  <div class="grid">
+    <% @products.each do |product| %>
+      <div class="col-md-2">
+        <div class="card">
+          <% product.images.each do |image| %>
+            <%= image_tag(image, class: "card-img-top img-thumbnail", alt: "Product Image") %>
+          <% end %>
+          <div class="card-body">
+            <h4 class="card-title"><%= product.name %></h4>
+            <p class="card-text">Price: <%= product.current_price %></p>
+            <p class="card-text">Description: <%= product.description %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No results found.</p>
+<% end %>

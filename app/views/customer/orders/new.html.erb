@@ -1,0 +1,22 @@
+<h1>Create Order</h1>
+<%= form_with(model: [:customer, @order]) do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+  <div>
+    <%= form.label :email %><br>
+    <%= form.text_field :email %>
+  </div>
+  <div>
+    <%= form.label :address %><br>
+    <%= form.text_field :address %>
+  </div>
+  <div>
+    <%= form.label :number %><br>
+    <%= form.text_field :number %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

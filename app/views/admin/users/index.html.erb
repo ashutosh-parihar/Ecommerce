@@ -1,0 +1,44 @@
+<% if current_user&.has_role?(:admin) %>
+  <div class="alert alert-info">
+    <h1 class="display-4">Welcome <%= current_user.name %> (Admin)</h1>
+  </div>
+<% end %>
+
+<h2 class="mt-4 mb-3">All User Details</h2>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Age</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Address</th>
+      <th scope="col">Product Actions</th>
+      <% if current_user&.has_role?(:admin) %>
+        <th scope="col">Delete</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.phone %></td>
+        <td><%= user.age %></td>
+        <td><%= user.gender %></td>
+        <td><%= user.address %></td>
+        <td>
+          <%= link_to 'Show Products', products_path, class: 'btn btn-primary btn-sm' %>
+        </td>
+        <% if current_user&.has_role?(:admin) %>
+          <td><%= link_to "Destroy", admin_user_path(user), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

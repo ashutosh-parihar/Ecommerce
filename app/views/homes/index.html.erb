@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <% @products.each do |product| %>
+      <div class="col-md-3 mb-3">
+        <div class="card h-100 bg-dark text-white">
+          <% if product.images.attached? %>
+            <%= image_tag url_for(product.images.first), class: "card-img-top product-image", alt: "Product Image" %>
+          <% else %>
+            <%= image_tag "default_image.jpg", class: "card-img-top product-image", alt: "Default Image" %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text">Actual Price: <del><%= product.actual_price %></del></p>
+            <p class="card-text">Current Price: <%= product.current_price %></p>
+            <p class="card-text"><%= product.description %></p>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+<% if user_signed_in? %>
+  <button class="btn btn-primary mr-2">Add to Cart</button>
+  <button class="btn btn-success">Buy Now</button>
+<% else %>
+  <%= link_to "Sign In", new_user_session_path, class: "btn btn-primary mr-2" %>
+  <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-success" %>
+<% end %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+   <div class="pagination justify-content-center">
+  <%= will_paginate @products, class: 'mx-2' %>
+</div>
+  </div>
+</div>
